@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050605">
+<meta name="description" content="Agico convierte cualquier imagen de referencia en prompts perfectos, master prompts, JSON y ADN visual. Herramienta de escritorio para Windows con Gemini. Pago único $20.">
+<meta name="keywords" content="Agico, prompt engineering, generación de imágenes, IA, Gemini, estilo visual, ADN visual, Windows">
+<meta name="author" content="Fernando Carrero">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (cuando tengas la imagen OG, añade: <meta property="og:image" content="TU_URL_AQUI">) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Agico — Convierte cualquier imagen en un prompt perfecto">
+<meta property="og:description" content="Arrastra una referencia. Agico observa su estilo, lo descompone y te entrega el prompt, master prompt, JSON y ADN visual listos para copiar. $20 pago único. Solo Windows.">
+<meta property="og:site_name" content="Agico">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://1863187910463.gumroad.com/l/agico">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agico — Convierte cualquier imagen en un prompt perfecto">
+<meta name="twitter:description" content="De imagen a prompt perfecto en segundos. Análisis + Estudio + Galería. Windows. $20 pago único.">
+
+<title>Agico — Convierte cualquier imagen en un prompt perfecto</title>
+
+<!-- Favicon AG en verde -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzA1MDYwNSIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMi41IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjOGZkMDVhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iLTAuNSI+QUc8L3RleHQ+Cjwvc3ZnPgo=">
+<link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzA1MDYwNSIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMi41IiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCAtYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iOTAwIiBmb250LXNpemU9IjEzIiBmaWxsPSIjOGZkMDVhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBsZXR0ZXItc3BhY2luZz0iLTAuNSI+QUc8L3RleHQ+Cjwvc3ZnPgo=">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Montserrat+Alternates:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="importmap">
+{"imports":{
+"react":"https://esm.sh/react@18.3.1",
+"react/":"https://esm.sh/react@18.3.1/",
+"react-dom":"https://esm.sh/react-dom@18.3.1?external=react",
+"react-dom/":"https://esm.sh/react-dom@18.3.1/",
+"three":"https://esm.sh/three@0.160.0",
+"three/addons/":"https://esm.sh/three@0.160.0/examples/jsm/",
+"@react-three/fiber":"https://esm.sh/@react-three/fiber@8.15.19?external=react,react-dom,three",
+"@react-three/drei":"https://esm.sh/@react-three/drei@9.99.0?external=react,react-dom,three,@react-three/fiber",
+"htm":"https://esm.sh/htm@3.1.1"
+}}
+</script>
+<style>
+:root{--g:#8fd05a;--gd:#5b8230;--w:#eef3e6;--k:#050605;--mut:#9aa690}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:auto}
+body{background:radial-gradient(ellipse at 70% 20%,#16240e 0,#050605 60%);color:var(--w);font-family:'Montserrat',sans-serif;overflow-x:hidden}
+#scene{position:fixed;inset:0;z-index:0;pointer-events:none}
+#webgl-fallback{position:fixed;inset:0;z-index:1;display:none;background:#050605;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--mut);font-size:.9rem;text-align:center;padding:40px}
+nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:18px 6%;background:linear-gradient(#050605cc,transparent)}
+.brand{font-weight:900;letter-spacing:.18em;font-size:1rem;color:transparent;-webkit-background-clip:text;background-clip:text;background-image:linear-gradient(105deg,#b9c6ae 0 44%,#fff 50%,#b9c6ae 56% 100%);background-size:250% 100%;animation:shine 4.5s ease-in-out infinite}
+@keyframes shine{0%{background-position:100% 0}60%,100%{background-position:0 0}}
+.btn{display:inline-block;text-decoration:none;cursor:pointer;border:0;font:800 .85rem Montserrat;letter-spacing:.06em;color:var(--k);background:var(--g);padding:14px 30px;border-radius:999px;box-shadow:0 0 0 0 #8fd05a66,0 8px 30px #8fd05a40;transition:box-shadow .3s,background .3s,transform .25s}
+.btn:hover{background:var(--w);box-shadow:0 0 0 8px #8fd05a33,0 8px 40px #8fd05a80}
+.btn:focus-visible{outline:2px solid var(--g);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--w);border:1.5px solid #eef3e655;box-shadow:none}
+.btn.ghost:hover{border-color:var(--g);color:var(--g);background:transparent}
+.btn.sm{padding:9px 20px;font-size:.72rem}
+.btn.xl{font-size:1.05rem;padding:20px 52px;animation:pulse 2.4s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 14px #8fd05a22,0 8px 50px #8fd05a99}}
+main{position:relative;z-index:5}
+section{min-height:100vh;display:flex;align-items:center;padding:100px 7%}
+section.R{justify-content:flex-end}section.C{justify-content:center;text-align:center}
+section.faq-sec{min-height:auto;padding:80px 7% 100px}
+.panel{position:relative;isolation:isolate;width:min(520px,100%);padding:38px;border-radius:30px;
+background:linear-gradient(135deg,rgba(238,243,230,.10),rgba(143,208,90,.04) 55%,rgba(238,243,230,.03)),rgba(5,6,5,.32);
+border:1px solid rgba(238,243,230,.10);
+backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 0 44px rgba(143,208,90,.10),inset 0 -24px 50px rgba(143,208,90,.06),0 24px 60px rgba(0,0,0,.45),0 0 44px rgba(143,208,90,.10)}
+.panel::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;pointer-events:none;
+background:linear-gradient(135deg,rgba(255,255,255,.75),rgba(143,208,90,.22) 30%,rgba(255,255,255,.05) 60%,rgba(143,208,90,.55));
+-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.panel::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+background:radial-gradient(120% 80% at 8% 0%,rgba(255,255,255,.16),transparent 55%),radial-gradient(80% 60% at 100% 100%,rgba(143,208,90,.18),transparent 60%);animation:breathe 6s ease-in-out infinite alternate}
+@keyframes breathe{from{opacity:.55}to{opacity:1}}
+.panel.hero{box-shadow:none}.panel.hero::before,.panel.hero::after{display:none}
+.panel.wide{width:min(640px,100%)}
+.panel.faq-panel{width:min(680px,100%);padding:42px 40px}
+.tag{font:600 .76rem 'Montserrat Alternates',sans-serif;color:var(--g);letter-spacing:.22em;text-transform:uppercase;margin-bottom:14px}
+h2{font-weight:800;font-size:clamp(1.8rem,3.6vw,2.7rem);line-height:1.08;letter-spacing:-.02em;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--g)}
+p{color:#cfd8c6;line-height:1.65;font-size:.98rem}
+.hero h1{font-weight:900;font-size:clamp(4.2rem,13vw,10rem);line-height:1.08;letter-spacing:-.03em;overflow:visible;padding:.15em .08em .2em;margin:0}
+.hero h1 span{display:inline-block;color:transparent;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-repeat:no-repeat;
+background-image:linear-gradient(105deg,transparent 0%,rgba(255,255,255,.05) 38%,rgba(255,255,255,.45) 47%,rgba(255,255,255,.95) 50%,rgba(255,255,255,.45) 53%,rgba(255,255,255,.05) 62%,transparent 75%),linear-gradient(180deg,#f2f6ec 0%,#b8c5ad 55%,#9aab8e 100%);
+background-size:220% 100%,100% 100%;background-position:-300% 0,0 0;
+filter:drop-shadow(0 0 20px rgba(143,208,90,.3));
+padding:0 .01em}
+.hero .lead{font-size:clamp(1.05rem,1.8vw,1.3rem);font-weight:600;margin:10px 0 14px;color:var(--w)}
+.hero p.sub{max-width:480px;margin-bottom:30px}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.hint{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:10;font:500 .7rem 'JetBrains Mono';letter-spacing:.2em;color:var(--mut);transition:opacity .4s}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.mini{border:1px solid #8fd05a40;border-radius:16px;padding:14px;background:#8fd05a0f}
+.mini b{display:block;font-size:.82rem;margin-bottom:4px;color:var(--g)}
+.mini span{font-size:.76rem;color:#bcc7b2;line-height:1.45;display:block}
+ul.chk{list-style:none;padding:0;margin:18px 0}
+ul.chk li{padding:9px 0 9px 28px;position:relative;font-size:.92rem;color:#dfe8d6;border-bottom:1px solid #eef3e61a}
+ul.chk li::before{content:"";position:absolute;left:4px;top:15px;width:10px;height:10px;border-radius:50%;background:var(--g);box-shadow:0 0 12px var(--g)}
+.steps{counter-reset:s;margin-top:16px;display:grid;gap:10px}
+.steps div{counter-increment:s;display:flex;gap:14px;align-items:flex-start;font-size:.9rem;color:#dfe8d6;line-height:1.5}
+.steps div::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--g);color:var(--k);font-weight:800;display:grid;place-items:center;font-size:.8rem}
+.price{font-weight:900;font-size:clamp(3.4rem,8vw,5.4rem);letter-spacing:-.04em;color:var(--w);line-height:1}
+.price small{font-size:.9rem;font-weight:600;color:var(--mut);letter-spacing:0;margin-left:8px}
+.buy .panel{padding:46px 40px}
+.note{font-size:.76rem;color:var(--mut);margin-top:14px}
+.guarantee{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:.82rem;color:#cfd8c6;background:rgba(143,208,90,.08);border:1px solid rgba(143,208,90,.25);padding:10px 16px;border-radius:999px}
+.guarantee svg{flex:none}
+/* FAQ */
+.faq-list{margin-top:8px}
+.faq-item{border-bottom:1px solid rgba(238,243,230,.12)}
+.faq-item:last-child{border-bottom:0}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;background:none;border:0;color:var(--w);font:700 .95rem Montserrat;text-align:left;cursor:pointer;letter-spacing:-.01em}
+.faq-q:hover{color:var(--g)}
+.faq-q:focus-visible{outline:2px solid var(--g);outline-offset:2px;border-radius:4px}
+.faq-q svg{flex:none;width:18px;height:18px;stroke:var(--g);transition:transform .3s}
+.faq-item.open .faq-q svg{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s ease}
+.faq-item.open .faq-a{max-height:220px;padding-bottom:18px}
+.faq-a p{font-size:.9rem;color:#cfd8c6;line-height:1.6;margin:0}
+.platforms{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.plat{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:#dfe8d6;background:rgba(143,208,90,.1);border:1px solid rgba(143,208,90,.28);padding:7px 14px;border-radius:999px}
+footer{position:relative;z-index:5;text-align:center;padding:30px;font:500 .72rem 'JetBrains Mono';color:#6f7a66;letter-spacing:.14em}
+@media(max-width:700px){section,section.R{justify-content:center;padding:90px 5%}.panel{padding:26px}.grid4{grid-template-columns:1fr}.panel.faq-panel{padding:28px 22px}}
+@media(prefers-reduced-motion:reduce){.btn.xl{animation:none}}
+
+/* ---- Correcciones de robustez visual y rendimiento ---- */
+.panel{overflow:clip;overflow-clip-margin:0;transform:translateZ(0)}
+.panel::before{
+  inset:0;
+  padding:1px;
+  background:linear-gradient(125deg,rgba(255,255,255,.62),rgba(143,208,90,.18) 28%,rgba(255,255,255,.025) 58%,rgba(143,208,90,.38));
+  -webkit-mask:none;
+  mask:none;
+  border:1px solid transparent;
+  border-radius:inherit;
+  -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+}
+.panel::after{
+  inset:1px;
+  border-radius:calc(30px - 1px);
+  clip-path:inset(0 round 29px);
+  background:
+    radial-gradient(70% 42% at 8% 0%,rgba(255,255,255,.13),transparent 75%),
+    radial-gradient(55% 45% at 100% 100%,rgba(143,208,90,.13),transparent 78%);
+}
+.panel.hero{overflow:visible;transform:none}
+.panel.hero::before,.panel.hero::after{display:none}
+@media (max-width:700px){
+  .panel{overflow:clip}
+  .panel::after{clip-path:inset(0 round 25px);border-radius:25px}
+  .hero h1{font-size:clamp(3.6rem,18vw,7rem)}
+  .btn.xl{padding:17px 28px;font-size:.95rem}
+  nav{padding:14px 5%}
+}
+@media (hover:none),(pointer:coarse){
+  .btn:hover{box-shadow:0 8px 30px #8fd05a40}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* ---- Optimización móvil: tacto, legibilidad y composición ---- */
+html, body, a, button, .btn, .faq-q, #scene, canvas {
+  -webkit-tap-highlight-color: transparent;
+}
+button, a { touch-action: manipulation; }
+:focus:not(:focus-visible) { outline: none; }
+#scene { contain: strict; }
+@media (max-width:700px) {
+  body { background: radial-gradient(ellipse at 50% 8%, #14200e 0%, #050605 68%); }
+  nav { padding: max(12px, env(safe-area-inset-top)) 5% 12px; background:linear-gradient(#050605f2, #050605b8 75%, transparent); }
+  .brand { font-size:.9rem; letter-spacing:.14em; }
+  section, section.R, section.C, section.faq-sec {
+    min-height: auto;
+    padding: 84px 6% 52px;
+    align-items:center;
+  }
+  section.hero { min-height: min(92svh, 780px); padding-top:100px; padding-bottom:64px; }
+  .panel, .panel.wide, .panel.faq-panel {
+    width:100%; max-width:560px; padding:25px 21px; border-radius:23px;
+  }
+  .panel::after { border-radius:22px; clip-path:inset(0 round 22px); }
+  .hero .panel { padding:0 !important; }
+  .hero h1 { font-size:clamp(3.25rem, 17vw, 6rem); letter-spacing:-.055em; line-height:1.02; padding:.12em .02em .16em; }
+  .tag { font-size:.68rem; letter-spacing:.13em; line-height:1.5; margin-bottom:12px; }
+  h2 { font-size:clamp(1.65rem, 7.1vw, 2.15rem); line-height:1.13; margin-bottom:14px; }
+  p { font-size:.94rem; line-height:1.78; }
+  .hero .lead { font-size:1.05rem; line-height:1.45; margin:12px 0; }
+  .hero p.sub { margin-bottom:22px; }
+  .row { gap:11px; }
+  .row .btn { width:100%; text-align:center; justify-content:center; }
+  .btn.xl { padding:16px 20px; font-size:.9rem; animation:none; }
+  .btn { min-height:46px; }
+  .grid4 { grid-template-columns:1fr; gap:10px; margin-top:16px; }
+  .mini { padding:15px 16px; border-radius:14px; }
+  .mini b { font-size:.86rem; margin-bottom:6px; }
+  .mini span { font-size:.82rem; line-height:1.6; }
+  ul.chk { margin:16px 0 4px; }
+  ul.chk li { padding:12px 0 12px 25px; font-size:.88rem; line-height:1.55; }
+  ul.chk li::before { top:17px; }
+  .steps { gap:15px; margin-top:20px; }
+  .steps div { gap:11px; font-size:.87rem; line-height:1.65; }
+  .steps div::before { width:27px; height:27px; }
+  .note { font-size:.76rem; line-height:1.65; }
+  .platforms { gap:8px; }
+  .plat { padding:8px 12px; }
+  .faq-q { padding:17px 0; font-size:.88rem; line-height:1.5; }
+  .faq-a { transition:max-height .25s ease; }
+  .faq-item.open .faq-a { max-height:600px; padding-bottom:17px; }
+  .faq-a p { font-size:.86rem; }
+  .price { font-size:clamp(3rem, 14vw, 4rem); }
+  .price small { display:block; margin:9px 0 0; font-size:.78rem; }
+  .buy .panel { padding:29px 21px; }
+  .guarantee { border-radius:15px; align-items:flex-start; text-align:left; line-height:1.5; padding:11px 12px; font-size:.77rem; }
+  footer { padding:26px 18px calc(26px + env(safe-area-inset-bottom)); line-height:1.8; }
+  .hint { bottom:calc(12px + env(safe-area-inset-bottom)); font-size:.62rem; }
+}
+@media (max-width:380px) {
+  .hero h1 { font-size:16.3vw; }
+  section, section.R, section.C, section.faq-sec { padding-left:5%; padding-right:5%; }
+  .panel, .panel.wide, .panel.faq-panel { padding:22px 17px; }
+  .hero .panel { padding:0 !important; }
+}
+@media (hover:none), (pointer:coarse) {
+  .btn:hover { background:var(--g); color:var(--k); box-shadow:0 8px 24px #8fd05a30; }
+  .btn.ghost:hover { background:transparent; color:var(--w); border-color:#eef3e655; }
+  .faq-q:hover { color:var(--w); }
+}
+
+</style>
+</head>
+<body>
+<div id="scene" role="img" aria-label="Escena 3D interactiva de Agico"></div>
+<div id="webgl-fallback" aria-hidden="true">
+  <div style="font-size:2rem;color:var(--g);font-weight:900;letter-spacing:.15em">AGICO</div>
+  <p>Tu navegador no soporta WebGL.<br>Puedes seguir explorando el contenido sin la escena 3D.</p>
+</div>
+<nav>
+  <div class="brand">AGICO</div>
+  <a class="btn sm" href="#comprar" data-buy>Comprar</a>
+</nav>
+
+<main>
+<section class="hero">
+  <div class="panel wide hero" style="background:none;border:0;backdrop-filter:none;padding:0">
+    <div class="tag">Por Fernando Carrero · Windows</div>
+    <h1 aria-label="Agico"><span>A</span><span>G</span><span>I</span><span>C</span><span>O</span></h1>
+    <div class="lead">Convierte cualquier imagen en un prompt perfecto.</div>
+    <p class="sub">Arrastra una referencia. Agico observa su estilo, lo descompone y te entrega el prompt, el master prompt, el JSON y el ADN visual, listos para copiar.</p>
+    <div class="row">
+      <a class="btn xl" href="#comprar" data-buy>Comprar Agico — $20</a>
+      <a class="btn ghost" href="#que">Ver cómo funciona</a>
+    </div>
+  </div>
+</section>
+
+<section class="R" id="que">
+  <div class="panel">
+    <div class="tag">01 · Qué hace</div>
+    <h2>Deja de adivinar <em>cómo está hecha</em> una imagen.</h2>
+    <p>Subes una imagen y, si quieres, una petición. Agico la analiza paso a paso: observa, descompone, extrae su ADN visual, pasa un control de calidad y compila todo en prompts que puedes usar en tu generador de imágenes favorito.</p>
+    <ul class="chk">
+      <li>Replica un estilo sin perder horas probando palabras</li>
+      <li>Mantén coherencia visual en todo un proyecto</li>
+      <li>Archiva cada investigación en tu galería</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="panel wide">
+    <div class="tag">02 · Lo que recibes</div>
+    <h2>Cuatro resultados <em>en un solo análisis</em>.</h2>
+    <p>Cada uno con su botón de copiar. Pega y genera.</p>
+    <div class="grid4">
+      <div class="mini"><b>Prompt de estilo</b><span>El estilo de la imagen descrito con precisión.</span></div>
+      <div class="mini"><b>Master prompt</b><span>Una versión completa y ordenada para generar.</span></div>
+      <div class="mini"><b>JSON</b><span>Estructura limpia para flujos y automatizaciones.</span></div>
+      <div class="mini"><b>ADN Visual</b><span>Las claves de color, luz, composición y textura.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="R">
+  <div class="panel">
+    <div class="tag">03 · Estudio</div>
+    <h2>Dirige la escena <em>como un director de arte</em>.</h2>
+    <p>Con el Asistente Pers decides la perspectiva (ángulo y plano), la iluminación y las sombras, o lo dejas todo en <b>Auto</b> y él decide según el estilo analizado. Lo que escribas manda sobre las opciones.</p>
+    <div class="grid4">
+      <div class="mini"><b>Perspectiva</b><span>Frontal, picado, cenital, holandés…</span></div>
+      <div class="mini"><b>Iluminación</b><span>Hora dorada, contraluz, neón, dramática…</span></div>
+      <div class="mini"><b>Sombras</b><span>Suaves, duras, largas, alto contraste.</span></div>
+      <div class="mini"><b>Vista previa 3D</b><span>Mira el cambio antes de enviar.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="panel wide">
+    <div class="tag">04 · Cómo funciona</div>
+    <h2>Instalar y usar <em>es rápido</em>.</h2>
+    <div class="steps">
+      <div>Descomprime la carpeta y ejecuta la instalación sencilla; se crea un acceso directo.</div>
+      <div>Pega tu API key de Google (Gemini). Se guarda solo en tu equipo.</div>
+      <div>Elige el motor: automático o el modelo Gemini que prefieras, y actualiza modelos con un clic.</div>
+      <div>Adjunta una imagen, pulsa enviar y copia tus resultados. Todo queda guardado en la Galería.</div>
+    </div>
+    <div class="platforms">
+      <span class="plat">Windows</span>
+    </div>
+    <p class="note">Agico usa tu propia cuenta de Google AI: el consumo de la API corre por tu cuenta. Incluye modo claro y oscuro.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="C faq-sec" id="faq">
+  <div class="panel wide faq-panel">
+    <div class="tag">Preguntas frecuentes</div>
+    <h2>Todo lo que <em>necesitas saber</em>.</h2>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q" aria-expanded="true">
+          ¿En qué sistemas funciona?
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Agico es una herramienta de escritorio para <b>Windows</b>. No es una app web: recibes el instalador listo y se crea un acceso directo en tu equipo.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Necesito una API key de Google?
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Sí. Agico usa tu propia cuenta de Google AI (Gemini). La key se guarda solo en tu equipo y nunca se envía a terceros. El consumo de la API corre por tu cuenta (Google ofrece cuota gratuita generosa).</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Es un pago único o hay suscripción?
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Pago único de <b>$20 USD</b>. Licencia perpetua: sin suscripción, sin renovaciones. Compras una vez y es tuyo.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Qué recibo después de comprar?
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Inmediatamente después del pago en Gumroad recibes la carpeta con el instalador listo. Descomprimes, instalas y empiezas. Incluye actualizaciones de modelos.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Funciona sin internet?
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>La app se instala en tu equipo, pero el análisis usa la API de Gemini, por lo que necesitas conexión a internet para generar los resultados.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false">
+          ¿Puedo usarlo con Midjourney, Flux, SD…?
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <div class="faq-a">
+          <p>Sí. Agico genera prompts limpios y estructurados pensados para pegar en cualquier generador de imágenes: Midjourney, Flux, Stable Diffusion, Ideogram, Leonardo, etc.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="C buy" id="comprar">
+  <div class="panel wide">
+    <div class="tag">Licencia Agico</div>
+    <h2>Empieza a crear con <em>estilo propio</em>.</h2>
+    <div class="price"><span id="price">$20</span><small>USD · pago único</small></div>
+    <ul class="chk" style="text-align:left;max-width:380px;margin:22px auto">
+      <li>Agico completo: análisis, Investigación, Estudio y Galería</li>
+      <li>Motor automático con Gemini</li>
+      <li>Instalación simple + actualizaciones de modelos</li>
+      <li>Licencia perpetua · Solo Windows</li>
+    </ul>
+    <a class="btn xl" id="buy" href="https://1863187910463.gumroad.com/l/agico" data-buy target="_blank" rel="noopener">Comprar ahora — $20</a>
+    <div class="guarantee">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8fd05a" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Pago seguro en Gumroad · Recibes la carpeta al instante
+    </div>
+    <p class="note" style="margin-top:12px">Sin costes ocultos. Tú controlas tu API key de Gemini.</p>
+  </div>
+</section>
+</main>
+<footer>© AGICO · Fernando Carrero</footer>
+<div class="hint" id="hint">SCROLL ↓</div>
+
+<script type="module">
+import React,{useRef,useMemo,useEffect} from 'react';
+import {createRoot} from 'react-dom/client';
+import {Canvas,useFrame,useThree} from '@react-three/fiber';
+import {Float} from '@react-three/drei';
+import * as THREE from 'three';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';
+import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';
+import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';
+import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+import htm from 'htm';
+const html=htm.bind(React.createElement);
+
+const IS_MOBILE=matchMedia('(max-width:700px), (pointer:coarse)').matches;
+const S={p:0}, XS=[2.6,-2.6,2.6,-2.6,0], DZ=14, st=i=>[XS[i],0,-DZ*i];
+const G='#8fd05a', W='#eef3e6';
+
+/* ---- cámara guiada por el scroll ---- */
+const camKey=i=>({p:new THREE.Vector3(-XS[i]*.3,1.2,-DZ*i+(i==4?7:9)),l:new THREE.Vector3(XS[i]*.55,0,-DZ*i)});
+function Rig(){
+  const {camera,pointer}=useThree();
+  const L=useRef(new THREE.Vector3(0,0,0)),tp=useMemo(()=>new THREE.Vector3(),[]),tl=useMemo(()=>new THREE.Vector3(),[]);
+  useFrame((_,d)=>{
+    const t=Math.min(S.p*4,3.9999),i=Math.floor(t),f=t-i,e=f*f*(3-2*f);
+    const a=camKey(i),b=camKey(i+1);
+    tp.lerpVectors(a.p,b.p,e);tl.lerpVectors(a.l,b.l,e);
+    if(!IS_MOBILE){tp.x+=pointer.x*.5;tp.y+=pointer.y*.3;}
+    const k=1-Math.exp(-4*d);
+    camera.position.lerp(tp,k);L.current.lerp(tl,k);camera.lookAt(L.current);
+  });
+  return null;
+}
+
+/* ---- EffectComposer + Bloom ---- */
+function Post(){
+  const {gl,scene,camera,size}=useThree();
+  const comp=useMemo(()=>{
+    const c=new EffectComposer(gl);
+    c.addPass(new RenderPass(scene,camera));
+    c.addPass(new UnrealBloomPass(new THREE.Vector2(size.width,size.height),IS_MOBILE?.32:.48,1.1,.34));
+    c.addPass(new OutputPass());
+    return c;
+  },[gl,scene,camera]);
+  useEffect(()=>{comp.setPixelRatio(gl.getPixelRatio());comp.setSize(size.width,size.height)},[comp,gl,size.width,size.height]);
+  useEffect(()=>()=>comp.dispose(),[comp]);
+  useFrame(()=>comp.render(),1);
+  return null;
+}
+
+/* ---- Estación 0: el ojo de Agico ---- */
+function Lens(){
+  const w=useRef(),pu=useRef(),{pointer}=useThree();
+  useFrame((_,d)=>{
+    w.current.rotation.y+=d*(IS_MOBILE?.16:.3);w.current.rotation.x+=d*(IS_MOBILE?.09:.18);
+    if(!IS_MOBILE){pu.current.rotation.y+=(pointer.x*.6-pu.current.rotation.y)*.1;
+    pu.current.rotation.x+=(-pointer.y*.4-pu.current.rotation.x)*.1;}
+  });
+  return html`<group position=${st(0)}><${Float} speed=${1.5} floatIntensity=${1.2}>
+    <mesh ref=${w}><icosahedronGeometry args=${[2.1,1]}/><meshBasicMaterial color=${G} wireframe/></mesh>
+    <mesh><sphereGeometry args=${[1.2,64,64]}/><meshStandardMaterial color=${W} emissive=${G} emissiveIntensity=${.55} roughness=${.18} metalness=${.35}/></mesh>
+    <group ref=${pu}>
+      <mesh position=${[0,0,1.18]}><circleGeometry args=${[.5,40]}/><meshBasicMaterial color="#050605"/></mesh>
+      <mesh position=${[0,0,1.19]}><torusGeometry args=${[.52,.035,12,48]}/><meshBasicMaterial color=${G} toneMapped=${false}/></mesh>
+    </group>
+  </${Float}></group>`;
+}
+
+/* ---- Estación 1: imágenes en órbita ---- */
+function tex(i){
+  const c=document.createElement('canvas');c.width=200;c.height=260;const x=c.getContext('2d');
+  const g=x.createLinearGradient(0,0,200,260);g.addColorStop(0,i%2?'#1c2a12':'#0a0f08');g.addColorStop(1,i%2?'#8fd05a':'#eef3e6');
+  x.fillStyle=g;x.fillRect(0,0,200,260);
+  x.fillStyle='#050605aa';x.beginPath();x.arc(60+i*14,90+(i%3)*30,38+i*3,0,7);x.fill();
+  x.fillStyle='#eef3e6cc';x.fillRect(24,200,100+i*8,8);x.fillRect(24,218,70,6);
+  x.strokeStyle='#8fd05a';x.lineWidth=6;x.strokeRect(3,3,194,254);
+  return new THREE.CanvasTexture(c);
+}
+function Frames(){
+  const r=useRef(),T=useMemo(()=>[...Array(7)].map((_,i)=>tex(i)),[]);
+  useFrame((_,d)=>r.current.rotation.y+=d*.22);
+  return html`<group position=${st(1)}><group ref=${r}>${T.map((t,i)=>{
+    const a=i/7*Math.PI*2,x=Math.cos(a)*3.6,z=Math.sin(a)*3.6;
+    return html`<${Float} key=${i} speed=${1+i*.15} floatIntensity=${1.2}>
+      <mesh position=${[x,Math.sin(i*1.9)*1.5,z]} rotation=${[0,Math.atan2(x,z),0]}>
+        <planeGeometry args=${[1.5,1.95]}/><meshBasicMaterial map=${t} side=${THREE.DoubleSide} toneMapped=${false}/>
+      </mesh></${Float}>`})}</group>
+    <mesh><icosahedronGeometry args=${[.5,0]}/><meshBasicMaterial color=${G} wireframe/></mesh></group>`;
+}
+
+/* ---- Estación 2: cuatro entregables ---- */
+const BOX=new THREE.BoxGeometry(1.4,1.4,1.4);
+function Cubes(){
+  const r=useRef();useFrame((_,d)=>r.current.rotation.y+=d*.3);
+  return html`<group position=${st(2)}><group ref=${r}>${[[-1.5,1,0],[1.5,1,0],[-1.5,-1,0],[1.5,-1,0]].map((p,i)=>html`
+    <${Float} key=${i} speed=${2} floatIntensity=${1}><group position=${p}>
+      <mesh geometry=${BOX}><meshStandardMaterial color=${W} emissive=${G} emissiveIntensity=${.12+i*.06} roughness=${.4}/></mesh>
+      <lineSegments><edgesGeometry args=${[BOX]}/><lineBasicMaterial color=${G} toneMapped=${false}/></lineSegments>
+    </group></${Float}>`)}</group></group>`;
+}
+
+/* ---- Estación 3: estudio con luz y sombras ---- */
+function Studio(){
+  const l=useRef(),k=useRef();
+  useFrame(({clock},d)=>{const t=clock.elapsedTime;
+    l.current.position.set(Math.cos(t*.8)*3.2,2.4+Math.sin(t*.5),Math.sin(t*.8)*3.2);
+    k.current.rotation.x+=d*.3;k.current.rotation.y+=d*.2});
+  return html`<group position=${st(3)}>
+    <mesh rotation=${[-Math.PI/2,0,0]} position=${[0,-1.7,0]} receiveShadow><circleGeometry args=${[6,64]}/><meshStandardMaterial color="#0d140a" roughness=${.85}/></mesh>
+    <mesh ref=${k} castShadow><torusKnotGeometry args=${[.9,.3,160,20]}/><meshStandardMaterial color=${W} roughness=${.35}/></mesh>
+    <pointLight ref=${l} color=${G} intensity=${70} distance=${16} castShadow/>
+  </group>`;
+}
+
+/* ---- Estación 4: portal de compra ---- */
+function Portal(){
+  const r=useRef();useFrame((_,d)=>r.current.children.forEach((m,i)=>m.rotation.z+=d*(.3+i*.2)*(i%2?-1:1)));
+  return html`<group position=${st(4)}><group ref=${r}>${[2.6,2.0,1.4].map((R,i)=>html`
+    <mesh key=${i}><torusGeometry args=${[R,.04,16,120]}/><meshBasicMaterial color=${i==1?W:G} toneMapped=${false}/></mesh>`)}</group></group>`;
+}
+
+/* ---- Túnel de anillos ---- */
+function Tunnel(){
+  return html`<group>${[...Array(26)].map((_,i)=>html`<mesh key=${i} position=${[0,0,8-i*3.1]}>
+    <torusGeometry args=${[9,.015,6,90]}/><meshBasicMaterial color=${G} transparent opacity=${.22}/></mesh>`)}</group>`;
+}
+
+/* ---- Partículas circulares suaves (sin cuadrados negros) ---- */
+function softTex(){
+  const s=64,c=document.createElement('canvas');c.width=s;c.height=s;
+  const x=c.getContext('2d'),g=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s/2);
+  g.addColorStop(0,'rgba(255,255,255,1)');
+  g.addColorStop(.25,'rgba(255,255,255,.7)');
+  g.addColorStop(.55,'rgba(255,255,255,.2)');
+  g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle=g;x.fillRect(0,0,s,s);
+  const t=new THREE.CanvasTexture(c);t.needsUpdate=true;return t;
+}
+function SoftParticles({count=280,color=G,size=2.4,spread=[26,12,90],pos=[0,0,-28]}){
+  const ref=useRef();
+  const tex=useMemo(()=>softTex(),[]);
+  const positions=useMemo(()=>{
+    const a=new Float32Array(count*3);
+    for(let i=0;i<count;i++){
+      a[i*3]=(Math.random()-.5)*spread[0];
+      a[i*3+1]=(Math.random()-.5)*spread[1];
+      a[i*3+2]=(Math.random()-.5)*spread[2];
+    }
+    return a;
+  },[count,spread]);
+  useFrame((_,d)=>{if(ref.current)ref.current.rotation.y+=d*.04});
+  return html`<points ref=${ref} position=${pos}>
+    <bufferGeometry>
+      <bufferAttribute attach="attributes-position" args=${[positions,3]}/>
+    </bufferGeometry>
+    <pointsMaterial map=${tex} color=${color} size=${size} sizeAttenuation transparent depthWrite=${false} blending=${THREE.AdditiveBlending} toneMapped=${false} opacity=${.85}/>
+  </points>`;
+}
+
+function App(){
+  return html`<${Canvas} shadows dpr=${IS_MOBILE?[1,1.15]:[1,Math.min(window.devicePixelRatio||1,1.5)]} camera=${{fov:55,position:[0,1.2,9]}} gl=${{antialias:false,powerPreference:'high-performance'}}
+    eventSource=${document.body} eventPrefix="client">
+    <color attach="background" args=${['#050605']}/>
+    <fog attach="fog" args=${['#050605',14,58]}/>
+    <ambientLight intensity=${.45}/>
+    <directionalLight position=${[4,6,5]} intensity=${1.3} color=${W}/>
+    <${Rig}/><${Lens}/><${Frames}/><${Cubes}/><${Studio}/><${Portal}/><${Tunnel}/>
+    <gridHelper args=${[200,100,'#2a3d1b','#16200f']} position=${[0,-3,-28]}/>
+    <${SoftParticles} count=${IS_MOBILE?100:220} color=${G} size=${IS_MOBILE?.38:.5} spread=${[26,12,90]} pos=${[0,0,-28]}/>
+    <${SoftParticles} count=${IS_MOBILE?35:80} color=${W} size=${IS_MOBILE?.16:.2} spread=${[18,10,80]} pos=${[0,0,-28]}/>
+    <${Post}/>
+  </${Canvas}>`;
+}
+
+/* Fallback si WebGL no está disponible */
+try {
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) throw new Error('No WebGL');
+  createRoot(document.getElementById('scene')).render(html`<${App}/>`);
+} catch (e) {
+  document.getElementById('webgl-fallback').style.display = 'flex';
+  document.getElementById('scene').style.display = 'none';
+}
+
+/* ---- GSAP: UI + scroll ---- */
+gsap.registerPlugin(ScrollTrigger);
+gsap.timeline({delay:.2})
+  .from('.hero h1 span',{yPercent:115,duration:1.1,ease:'power4.out',stagger:.09})
+  .from('.hero .tag,.hero .lead,.hero .sub,.hero .row',{y:30,opacity:0,duration:.8,stagger:.12,ease:'power3.out'},'-=.6');
+/* brillo de linterna sobre AGICO */
+const h1=document.querySelector('.hero h1'),sp=[...h1.querySelectorAll('span')],sw={x:0};let titleWidth=0,ox=[];
+const measure=()=>{const l0=sp[0].getBoundingClientRect().left;titleWidth=sp[sp.length-1].getBoundingClientRect().right-l0;
+  ox=sp.map(s=>s.getBoundingClientRect().left-l0);sp.forEach(s=>s.style.backgroundSize=titleWidth+'px 100%,100% 100%')};
+const paint=()=>sp.forEach((s,i)=>s.style.backgroundPosition=(sw.x-ox[i])+'px 0,0 0');
+(document.fonts?.ready||Promise.resolve()).then(()=>{measure();sw.x=-titleWidth;paint();
+  if(!matchMedia('(prefers-reduced-motion:reduce)').matches)
+    gsap.fromTo(sw,{x:-titleWidth},{x:titleWidth,duration:2.4,ease:'sine.inOut',repeat:-1,repeatDelay:2.3,delay:1.6,onUpdate:paint});});
+addEventListener('resize',()=>{measure();paint()});
+if(!IS_MOBILE && !matchMedia('(prefers-reduced-motion:reduce)').matches){
+  gsap.utils.toArray('main section:not(.hero) .panel').forEach(p=>
+    gsap.from(p,{y:45,opacity:0,duration:.75,ease:'power3.out',scrollTrigger:{trigger:p,start:'top 88%'}}));
+}
+gsap.to(S,{p:1,ease:'none',scrollTrigger:{trigger:document.body,start:'top top',end:'bottom bottom',scrub:1}});
+gsap.to('#hint',{opacity:0,scrollTrigger:{trigger:'#que',start:'top 90%',toggleActions:'play none none reverse'}});
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});}));
+if(matchMedia('(hover:hover) and (pointer:fine)').matches &&
+   !matchMedia('(prefers-reduced-motion:reduce)').matches){
+  document.querySelectorAll('.btn').forEach(b=>{
+    b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();
+      gsap.to(b,{x:(e.clientX-r.left-r.width/2)*.10,y:(e.clientY-r.top-r.height/2)*.12,duration:.25,overwrite:true})});
+    b.addEventListener('mouseleave',()=>gsap.to(b,{x:0,y:0,duration:.35,overwrite:true}));
+  });
+}
+
+/* FAQ accordion */
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const isOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{
+      i.classList.remove('open');
+      i.querySelector('.faq-q').setAttribute('aria-expanded','false');
+    });
+    if(!isOpen){
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+    }
+  });
+});
+
+/* Enlaces de compra — URL real de Gumroad */
+const BUY_URL='https://1863187910463.gumroad.com/l/agico';
+const buyLink=document.getElementById('buy');
+buyLink.href=BUY_URL;
+document.querySelectorAll('a[data-buy]').forEach(a=>{
+  if(a!==buyLink){
+    a.addEventListener('click',e=>{
+      // Los del nav y hero llevan a #comprar; el botón final abre Gumroad
+    });
+  }
+});
+</script>
+</body>
+</html>
