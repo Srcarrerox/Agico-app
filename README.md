@@ -1,0 +1,2 @@
+# Agico-app
+Generate Prompts
